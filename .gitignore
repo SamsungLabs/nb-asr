@@ -1,0 +1,10 @@
+__pycache__
+graphs/
+*.pyc
+autocaml/exps
+autocaml/data
+autocaml/plots
+*.egg-info
+tools/plots
+results/
+.vscode
