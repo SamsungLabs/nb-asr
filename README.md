@@ -39,7 +39,7 @@ Please see the following section to see a brief summary of how to use the datase
 
 ## Using the dataset
 
-All relevant files can be downaloded from the `releases` page in this repo. 
+All relevant files can be downloded from the `releases` page in this repo. 
 
 We provide a `Dataset` class as the top-level interface to querying the datasets (although the user is free to read the pickle files on their own).
 The `Dataset` class is primarily used to deal with training datasets but it has an option to also piggy-back benchmarking and static datasets for convenience.

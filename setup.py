@@ -32,8 +32,8 @@ setup(name='NasbenchASR',
       description='Library for the NasbenchASR dataset',
       author='SAIC-Cambridge, On-Device Team',
       author_email='on.device@samsung.com',
-      url='https://github.sec.samsung.net/a-mehrotra1/pytorch-asr',
-      download_url='https://github.sec.samsung.net/a-mehrotra1/pytorch-asr',
+      url='https://github.com/SamsungLabs/nb-asr',
+      download_url='https://github.com/SamsungLabs/nb-asr',
       python_requires='>=3.6.0',
       setup_requires=[
           'git-python'
