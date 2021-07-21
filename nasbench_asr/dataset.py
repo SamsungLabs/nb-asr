@@ -157,7 +157,7 @@ class StaticInfoDataset(_Dataset):
                 otherwise a ``dict`` or a ``list`` containing information about the model.
         '''
         if self.version < 2:
-            raise ValueError('FLOPS are only available in file version >= 2, current file version: {self.version}. '
+            raise ValueError(f'FLOPS are only available in file version >= 2, current file version: {self.version}. '
                 'Please download a new file from: https://github.com/SamsungLabs/nb-asr/releases')
 
         model_hash = search_space.get_model_hash(arch, ops=self.ops)
