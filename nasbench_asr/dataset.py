@@ -49,9 +49,14 @@ class _Dataset():
                     if header['columns'][:2] != ['model_hash', 'latency']:
                         raise ValueError('In the current implementation we expect the dataset to contain information in order: model hash, latency')
                 elif db_type == 'static':
-                    if header['columns'][:2] != ['model_hash', 'params']:
-                        print(header['columns'])
-                        raise ValueError('In the current implementation we expect the dataset to contain information in order: model hash, number of parameters')
+                    if header['version'] < 2:
+                        if header['columns'][:2] != ['model_hash', 'params']:
+                            print(header['columns'])
+                            raise ValueError('In the current implementation we expect the dataset to contain information in order: model hash, number of parameters')
+                    else:
+                        if header['columns'][:3] != ['model_hash', 'params', 'flops']:
+                            print(header['columns'])
+                            raise ValueError('In the current implementation we expect the dataset to contain information in order: model hash, number of parameters, number of flops')
 
                 if db_type == 'training':
                     self.seeds.append(seed)
@@ -132,12 +137,6 @@ class StaticInfoDataset(_Dataset):
 
             Arguments:
                 arch - a point from the search space identifying a model
-                return_dict - (optional) determinates if the returned values will be provided
-                    as a ``dict`` or a scalar value. A ``dict`` contains the same values as
-                    the ``list`` but allows the user to extract them by their names, whereas
-                    a list can be thought of as a single row in a table containing values only.
-                    The user can map particular elements of the returned ``list`` by considering
-                    the values in provided ``devices`` argument. Default: ``False``.
 
             Returns:
                 ``None`` if information about a given ``arch`` cannot be found in the dataset,
@@ -146,6 +145,24 @@ class StaticInfoDataset(_Dataset):
         model_hash = search_space.get_model_hash(arch, ops=self.ops)
         ret = self._get(model_hash, False)
         return ret[0]
+
+    def flops(self, arch):
+        ''' Return the number of FLOPs in a specific architecture.
+
+            Arguments:
+                arch - a point from the search space identifying a model
+
+            Returns:
+                ``None`` if information about a given ``arch`` cannot be found in the dataset,
+                otherwise a ``dict`` or a ``list`` containing information about the model.
+        '''
+        if self.version < 2:
+            raise ValueError('FLOPS are only available in file version >= 2, current file version: {self.version}. '
+                'Please download a new file from: https://github.com/SamsungLabs/nb-asr/releases')
+
+        model_hash = search_space.get_model_hash(arch, ops=self.ops)
+        ret = self._get(model_hash, False)
+        return ret[1]
 
 
 class BenchmarkingDataset(_Dataset):
