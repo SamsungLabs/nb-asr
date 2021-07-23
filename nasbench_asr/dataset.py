@@ -466,6 +466,12 @@ class Dataset(_Dataset):
 
         return self.static_info.params(*args, **kwargs)
 
+    @functools.wraps(StaticInfoDataset.flops)
+    def flops(self, *args, **kwargs):
+        if not self.static_info:
+            raise ValueError('No static information attached')
+
+        return self.static_info.flops(*args, **kwargs)
 
 
 def from_folder(folder, max_epochs=None, seeds=None, devices=None, include_static_info=False, validate_data=True):
